@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+*{
+  font-family: 'Roboto', sans-serif;
+}
+body{
+  margin: 0;
+  padding: 0;
+}
+.navbar{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 20px;
+}
+.navbar a{
+  width: 50%;
+  height: 20px;
+  text-align: center;
+  text-decoration: none;
+  background-color: #aaa;
+}
+a:link, a:visited, a:link:active, a:visited:active{
+  color: black;
+  text-decoration: none;
+}
+.navbar a:hover{
+  background-color: #888;
+  cursor: grab;
+}
+.check-in-form{
+  display: flex;
+  flex-direction: column;
+}
+form div *{
+  margin: 5px;
+}
+form div{
+  margin: 10px;
+}
+table{
+  width: 100%;
+}
+table, th, td{
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+a{
+  text-decoration: none;
+}
+h4{
+  margin: 0;
+  padding: 0;
+}
+tr:first-child{
+  display: table-row;
+}
+.icon:hover{
+  cursor: grab;
+}
+th form input{
+  margin: 0;
+  padding: 0;
+  width: 33%;
+  border: 1px solid black;
+}
+.icon-option{
+  justify-content: center;
+  text-align: center;
+}
+.icon-option:hover{
+  cursor: grab;
+}
+.div-head{
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  justify-content: center;
+  gap: 10px;
+}
+td{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80px;
+}
