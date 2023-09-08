@@ -6,5 +6,5 @@ pub use Inicio::*;
 // pub use Push::*;
 mod NotFound;
 pub use NotFound::*;
-// mod Record;
-// pub use Record::*;
+mod Record;
+pub use Record::*;

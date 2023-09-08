@@ -7,10 +7,9 @@ use dioxus_free_icons::icons::{
   bs_icons::{BsInfoCircleFill, BsArrowDownCircleFill},
 };
 use crate::Route;
-use std::collections::HashMap;
 use dioxus_free_icons::Icon;
 pub type Records = (String,String, String, String, String, String, String, String, String, String, String, String, String,String, String);
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 enum Sort{
   UP,
   DOWN,
@@ -19,9 +18,8 @@ enum Sort{
 const FIELDS:[&str;15] = ["id","nombre", "patente", "fecha","hora","facturado","rut","kilometraje","motor_n","chassis_n","fono","informado","diagnostico","insumos_servicios","total"]; 
 #[inline_props]
 pub fn Inicio(cx: Scope) -> Element{
-  // let toogle_query = use_state(cx, ||[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]);
-  // let toogle_sort = use_state(cx, ||[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]);
-  let query = use_state(cx, ||["","","","","","","","","","","","","","",""]);
+  let toggle_query = use_state(cx ,||[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]);
+  let query = use_state(cx, ||["".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string()]);
   let sort = use_state(cx ,|| [Sort::NONE,Sort::NONE,Sort::NONE,Sort::NONE,Sort::NONE,Sort::NONE,Sort::NONE,Sort::NONE,Sort::NONE,Sort::NONE,Sort::NONE,Sort::NONE,Sort::NONE,Sort::NONE,Sort::NONE]);
   let file =  match File::open("data.csv"){
     Ok(file) => file,
@@ -47,7 +45,6 @@ pub fn Inicio(cx: Scope) -> Element{
         node_list.sort_by(|a, b| {
           let a = [&a.0,&a.1,&a.2,&a.3,&a.4,&a.5,&a.6,&a.7,&a.8,&a.9,&a.10,&a.11,&a.12,&a.13,&a.14];
           let b = [&b.0,&b.1,&b.2,&b.3,&b.4,&b.5,&b.6,&b.7,&b.8,&b.9,&b.10,&b.11,&b.12,&b.13,&b.14];
-
           let a = a[index];
           let b = b[index];
           a.to_uppercase().partial_cmp(&b.to_uppercase()).unwrap()
@@ -58,7 +55,6 @@ pub fn Inicio(cx: Scope) -> Element{
         node_list.sort_by(|a, b| {
           let a = [&a.0,&a.1,&a.2,&a.3,&a.4,&a.5,&a.6,&a.7,&a.8,&a.9,&a.10,&a.11,&a.12,&a.13,&a.14];
           let b = [&b.0,&b.1,&b.2,&b.3,&b.4,&b.5,&b.6,&b.7,&b.8,&b.9,&b.10,&b.11,&b.12,&b.13,&b.14];
-
           let a = a[index];
           let b = b[index];
           a.to_uppercase().partial_cmp(&b.to_uppercase()).unwrap()
@@ -66,63 +62,131 @@ pub fn Inicio(cx: Scope) -> Element{
         node_list.reverse();
         break
       },
-      Sort::NONE => {
-        break
-      },
+      Sort::NONE => (),
     }
   }
+  let node_list:Vec<_> = node_list.iter().filter(|&row|{
+    let list = [&row.0,&row.1,&row.2,&row.3,&row.4,&row.5,&row.6,&row.7,&row.8,&row.9,&row.10,&row.11,&row.12,&row.13,&row.14];
+    let mut filtered = true;
+    for (index, filter) in query.get().iter().enumerate(){
+      if !filter.is_empty(){
+        if !list[index].to_uppercase().contains(&filter.to_uppercase()) {filtered = false}
+      }
+    }
+    filtered
+  }).collect();
   let rendered_body = node_list.iter().map(|result|{
-    // let result = *result;
+    let result = *result;
     let (id, nombre, patente, fecha, hora, facturado, rut, kilometraje, motor_n, chassis_n, fono, informado, diagnostico, insumos_servicios, total):Records = result.clone();
     render!{
       tr{td{"{id}"}td{"{nombre}"}td{"{patente}"}td{"{fecha}"}td{"{hora}"}td{"{facturado}"}td{"{rut}"}td{"{kilometraje}"}td{"{motor_n}"}td{"{chassis_n}"}td{"{fono}"}td{"{informado}"}td{"{diagnostico}"}td{"{insumos_servicios}"}td{"{total}"}
-        // td{
-        //   div{
-        //     class:"icon-option",
-        //     Link{
-        //       to:Route::Record{
-        //         id:id
-        //       },
-        //       Icon {
-        //         width:15,
-        //         height:15,
-        //         icon: BsInfoCircleFill,
-        //         class:"icon"
-        //       }
-        //     }
-        //   }
-        // }
+        td{
+          div{
+            class:"icon-option",
+            Link{
+              to:Route::Record{
+                id:id.parse::<u16>().unwrap()
+              },
+              Icon {
+                width:15,
+                height:15,
+                icon: BsInfoCircleFill,
+                class:"icon"
+              }
+            }
+          }
+        }
       }
     }
   });
   let render_head:Vec<_> = FIELDS.iter().enumerate().map(|(index, field)|{
-    render!{
-      th{
-        "{field}"
-        div{
-          onclick:move |_|{
-            match sort.get()[index]{
-              Sort::NONE => {
-                let list = [Sort::NONE;15];
-                list[index] = Sort::UP;
-                sort.set(list);
-              },
-              Sort::UP => {
-                let list = [Sort::NONE;15];
-                list[index] = Sort::DOWN;
-                sort.set(list);
-              },
-              Sort::DOWN => {
-                let list = [Sort::NONE;15];
-                sort.set(list);
+    if !toggle_query.get()[index]{
+      render!{
+        th{
+          h4{"{field}"}
+          div{
+            onclick:move |_| {
+              let mut toogle = toggle_query.get().clone();
+              toogle[index] = true;
+              toggle_query.set(toogle);
+            },
+            Icon {
+              width:15,
+              height:15,
+              icon: FaMagnifyingGlass,
+              class:"icon"
+            },
+          }
+          div{
+            onclick:move |_|{
+              match sort.get()[index]{
+                Sort::NONE => {
+                  let mut list = [Sort::NONE;15];
+                  list[index] = Sort::UP;
+                  sort.set(list);
+                },
+                Sort::UP => {
+                  let mut list = [Sort::NONE;15];
+                  list[index] = Sort::DOWN;
+                  sort.set(list);
+                },
+                Sort::DOWN => {
+                  let list = [Sort::NONE;15];
+                  sort.set(list);
+                }
+              }
+            },
+            Icon{
+              width:15,
+              height:15,
+              class:"icon",
+              icon:BsArrowDownCircleFill
+            }
+          }
+        }
+      }
+    }else{
+      let query_value = &query.get()[index];
+      render!{
+        th{
+          h4{"{field}"}
+          form{
+            prevent_default:"onsubmit",
+            input{
+              r#type:"text",
+              value:"{query_value}",
+              oninput:move |e| {
+                let mut list = query.get().clone();
+                list[index] = e.value.clone();
+                query.set(list.clone())
               }
             }
-          },
-          Icon{
-            width:15,
-            height:15,
-            class:"icon",
-            icon:BsArrowDownCircleFill
+          }
+          div{
+            onclick:move |_|{
+              match sort.get()[index]{
+                Sort::NONE => {
+                  let mut list = [Sort::NONE;15];
+                  list[index] = Sort::UP;
+                  sort.set(list);
+                },
+                Sort::UP => {
+                  let mut list = [Sort::NONE;15];
+                  list[index] = Sort::DOWN;
+                  sort.set(list);
+                },
+                Sort::DOWN => {
+                  let list = [Sort::NONE;15];
+                  sort.set(list);
+                }
+              }
+            },
+            Icon{
+              width:15,
+              height:15,
+              class:"icon",
+              icon:BsArrowDownCircleFill
+            }
           }
         }
       }
@@ -134,7 +198,6 @@ pub fn Inicio(cx: Scope) -> Element{
       tr{
         render_head
         th{
-          // style:"width:5%",
           h4{"Options"}
         }
       }
