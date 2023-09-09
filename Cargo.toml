@@ -16,5 +16,6 @@ csv = "1.2.2"
 serde = "1.0.188"
 dioxus-free-icons = {version = "0.7.0", features = ["font-awesome-solid", "bootstrap", "material-design-icons-navigation", "material-design-icons-action"]}
 itertools = "0.11.0"
+chrono = "0.4.30"
 
 

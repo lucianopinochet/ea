@@ -4,7 +4,7 @@ use std::fs::File;
 use csv::ReaderBuilder;
 use dioxus_free_icons::icons::{
   fa_solid_icons::FaMagnifyingGlass,
-  bs_icons::{BsInfoCircleFill, BsArrowDownCircleFill},
+  bs_icons::{BsInfoSquareFill, BsArrowDownCircleFill},
 };
 use crate::Route;
 use dioxus_free_icons::Icon;
@@ -99,7 +99,7 @@ pub fn Inicio(cx: Scope) -> Element{
               Icon {
                 width:15,
                 height:15,
-                icon: BsInfoCircleFill,
+                icon: BsInfoSquareFill,
                 class:"icon"
               }
             }
@@ -204,13 +204,17 @@ pub fn Inicio(cx: Scope) -> Element{
   let render_head = render_head.into_iter();
   render!{
     table{
-      tr{
-        render_head
-        th{
-          h4{"Options"}
+      thead{
+        tr{
+          render_head
+          th{
+            h4{"Options"}
+          }
         }
       }
-      rendered_body
+      tbody{
+        rendered_body
+      }
     }
   }
 }

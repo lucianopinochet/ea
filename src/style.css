@@ -1,31 +1,49 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto:wght@300&display=swap');
 *{
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  padding: 0;
+  margin: 0;
+}
+html{
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 48%, rgba(0,212,255,1) 100%);
 }
 body{
-  margin: 0;
-  padding: 0;
+  font-size: 1rem;
+  font-weight: 200;
+  line-height: 1.5;
+  color: #212529;
 }
 .navbar{
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 20px;
+  height: 40px;
 }
 .navbar a{
-  width: 50%;
-  height: 20px;
+  width: 49%;
+  height: 40px;
   text-align: center;
   text-decoration: none;
-  background-color: #aaa;
+  background-color: #0d0042;
+  color: #fff;
+  border-radius: 5px;
+  justify-content: center;
+  margin: 5px;
 }
 a:link, a:visited, a:link:active, a:visited:active{
-  color: black;
+  color: #0d0042;
+  text-decoration: none;
+}
+.navbar a:link,.navbar a:visited,.navbar a:link:active, a:visited:active{
+  color: #fff;
   text-decoration: none;
 }
 .navbar a:hover{
-  background-color: #888;
+  background-color: #0d0042;
   cursor: grab;
+  height: 41px;
 }
 .record-form{
   display: flex;
@@ -37,11 +55,7 @@ form div *{
 form div{
   margin: 10px;
 }
-table{
-  width: 100%;
-}
 table, th, td{
-  border: 1px solid black;
   border-collapse: collapse;
 }
 a{
@@ -66,6 +80,7 @@ th form input{
 .icon-option{
   justify-content: center;
   text-align: center;
+  color: #0d0042;
 }
 .icon-option:hover{
   cursor: grab;
@@ -88,4 +103,56 @@ td{
   grid-template-columns: 1fr 1fr; 
 }.check-in-form input{
   width: 100%;
+}
+table{
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  border-spacing: 2px;
+  border-color: grey;
+  margin: 5px;
+}
+thead{
+  display: table-header-group;
+  vertical-align: middle;
+  border-color: inherit;
+}
+table thead tr{
+  height: 60px;
+  background: #0d0042;
+}
+table *{
+  position: relative;
+}
+tr{
+  display: table-row;
+}
+thead tr th{
+  font-size: 18px;
+  color: #fff;
+  line-height: 1.2;
+  font-weight: unset;
+  padding: 0 10px;
+}
+table td{
+  text-align: left;
+  padding-left: 8px;
+}
+tbody tr{
+  height: 50px;
+  font-size: 15px;
+  color: gray;
+  line-height: 1.2;
+  font-weight: unset;
+}
+tbody tr:nth-child(even){
+  background-color: #efefef;
+}
+#main{
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
 }

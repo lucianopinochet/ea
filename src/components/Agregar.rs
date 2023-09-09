@@ -3,12 +3,17 @@ use dioxus::prelude::*;
 use dioxus_router::prelude::Link;
 use std::fs::File;
 use crate::Route;
+use chrono::prelude::*;
 use itertools::concat;
 #[inline_props]
 pub fn Agregar(cx: Scope) -> Element{
   let mut id:u16 = 0;
   let mut first = true;
-  let input_values = use_state(cx, ||vec!["".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string()]);
+  let date:DateTime<Local> = Local::now(); 
+  let date = format!("{}-{}-{}",date.year(), date.month(), date.day());
+  let time:NaiveTime = Local::now().time();
+  let time = format!("{}:{}",time.hour(), time.minute());
+  let input_values = use_state(cx, ||vec!["".to_string(),"".to_string(),"".to_string(),date,time,"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string()]);
   let mut rdr = Reader::from_reader(File::open("data.csv").unwrap());
   let mut iter = rdr.records();
   while let Some(res) = iter.next(){
@@ -39,10 +44,10 @@ pub fn Agregar(cx: Scope) -> Element{
             r#type:"text",
             required:true,
             name:"nombre",
-            value:"{input_values.get()[1]}",
+            value:"{input_values.get()[0]}",
             oninput:move|e|{
               let mut list = input_values.get().clone();
-              list[1] = e.value.clone();
+              list[0] = e.value.clone();
               input_values.set(list.clone())
             }
           }
@@ -57,10 +62,10 @@ pub fn Agregar(cx: Scope) -> Element{
             required:true,
             name:"patente",
             pattern:"[a-zA-Z0-9]{6}",
-            value:"{input_values.get()[2]}",
+            value:"{input_values.get()[1]}",
             oninput:move|e|{
               let mut list = input_values.get().clone();
-              list[2] = e.value.clone();
+              list[1] = e.value.clone();
               input_values.set(list.clone())
             }
           }
@@ -74,10 +79,10 @@ pub fn Agregar(cx: Scope) -> Element{
             r#type:"date",
             required:true,
             name:"fecha",
-            value:"{input_values.get()[3]}",
+            value:"{input_values.get()[2]}",
             oninput:move|e|{
               let mut list = input_values.get().clone();
-              list[1] = e.value.clone();
+              list[2] = e.value.clone();
               input_values.set(list.clone())
             }
           }
@@ -91,10 +96,10 @@ pub fn Agregar(cx: Scope) -> Element{
             r#type:"time",
             required:true,
             name:"hora",
-            value:"{input_values.get()[4]}",
+            value:"{input_values.get()[3]}",
             oninput:move|e|{
               let mut list = input_values.get().clone();
-              list[1] = e.value.clone();
+              list[3] = e.value.clone();
               input_values.set(list.clone())
             }
           }
@@ -108,10 +113,10 @@ pub fn Agregar(cx: Scope) -> Element{
             r#type:"text",
             required:true,
             name:"facturado",
-            value:"{input_values.get()[5]}",
+            value:"{input_values.get()[4]}",
             oninput:move|e|{
               let mut list = input_values.get().clone();
-              list[5] = e.value.clone();
+              list[4] = e.value.clone();
               input_values.set(list.clone())
             }
           }
@@ -125,10 +130,10 @@ pub fn Agregar(cx: Scope) -> Element{
             r#type:"text",
             required:true,
             name:"rut",
-            value:"{input_values.get()[6]}",
+            value:"{input_values.get()[5]}",
             oninput:move|e|{
               let mut list = input_values.get().clone();
-              list[6] = e.value.clone();
+              list[5] = e.value.clone();
               input_values.set(list.clone())
             }
           }
@@ -142,10 +147,10 @@ pub fn Agregar(cx: Scope) -> Element{
             r#type:"number",
             required:true,
             name:"kilometraje",
-            value:"{input_values.get()[7]}",
+            value:"{input_values.get()[6]}",
             oninput:move|e|{
               let mut list = input_values.get().clone();
-              list[7] = e.value.clone();
+              list[6] = e.value.clone();
               input_values.set(list.clone())
             }
           }
@@ -159,10 +164,10 @@ pub fn Agregar(cx: Scope) -> Element{
             r#type:"text",
             required:true,
             name:"motor_n",
-            value:"{input_values.get()[8]}",
+            value:"{input_values.get()[7]}",
             oninput:move|e|{
               let mut list = input_values.get().clone();
-              list[8] = e.value.clone();
+              list[7] = e.value.clone();
               input_values.set(list.clone())
             }
           }
@@ -176,10 +181,10 @@ pub fn Agregar(cx: Scope) -> Element{
             r#type:"text",
             required:true,
             name:"chassis_n",
-            value:"{input_values.get()[9]}",
+            value:"{input_values.get()[8]}",
             oninput:move|e|{
               let mut list = input_values.get().clone();
-              list[9] = e.value.clone();
+              list[8] = e.value.clone();
               input_values.set(list.clone())
             }
           }
@@ -195,10 +200,10 @@ pub fn Agregar(cx: Scope) -> Element{
             name:"fono",
             placeholder:"+56912345678",
             pattern:"+569[0-9]{8}",
-            value:"{input_values.get()[10]}",
+            value:"{input_values.get()[9]}",
             oninput:move|e|{
               let mut list = input_values.get().clone();
-              list[10] = e.value.clone();
+              list[9] = e.value.clone();
               input_values.set(list.clone())
             }
           }
