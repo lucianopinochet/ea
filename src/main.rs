@@ -2,7 +2,7 @@
 // #![windows_subsystem = "windows"]
 mod components;
 
-use components::{NavBar, NotFound, Inicio, Record};
+use components::*;
 use dioxus_router::prelude::*;
 use dioxus::prelude::*;
 use dioxus_desktop::tao::window::*;
@@ -31,7 +31,8 @@ pub enum Route{
     #[route("/:id")]
     Record{
       id:u16
-    },
+    },#[route("/agregar")]
+    Agregar{},
   #[end_layout]
 	#[route("/..notfound")]
 	NotFound{}

@@ -27,7 +27,7 @@ a:link, a:visited, a:link:active, a:visited:active{
   background-color: #888;
   cursor: grab;
 }
-.check-in-form{
+.record-form{
   display: flex;
   flex-direction: column;
 }
@@ -82,4 +82,10 @@ td{
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100px;
+}
+.check-in-form{
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+}.check-in-form input{
+  width: 100%;
 }

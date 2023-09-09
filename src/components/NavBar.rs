@@ -12,7 +12,7 @@ pub fn NavBar(cx: Scope) -> Element{
         "Inicio"
       }
       Link{
-        to:Route::Inicio {},
+        to:Route::Agregar{},
         "Agregar"
       }  
     }

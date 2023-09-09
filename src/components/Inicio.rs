@@ -15,7 +15,7 @@ enum Sort{
   DOWN,
   NONE
 }
-const FIELDS:[&str;15] = ["id","nombre", "patente", "fecha","hora","facturado","rut","kilometraje","motor_n","chassis_n","fono","informado","diagnostico","insumos_servicios","total"]; 
+const FIELDS:[&str;15] = ["Id","Nombre", "Patente", "Fecha","Hora","Facturado","Rut","Kilometraje","Motor N","Chassis N","Fono","Informado","Diagnostico","Insumos y Servicios","Total"]; 
 #[inline_props]
 pub fn Inicio(cx: Scope) -> Element{
   let toggle_query = use_state(cx ,||[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]);
@@ -78,6 +78,15 @@ pub fn Inicio(cx: Scope) -> Element{
   let rendered_body = node_list.iter().map(|result|{
     let result = *result;
     let (id, nombre, patente, fecha, hora, facturado, rut, kilometraje, motor_n, chassis_n, fono, informado, diagnostico, insumos_servicios, total):Records = result.clone();
+    let informado = informado.split(';').collect::<Vec<&str>>().join(",");
+    let diagnostico = diagnostico.split(';').collect::<Vec<&str>>().join(",");
+    let list_is:Vec<&str> = insumos_servicios.split(';').collect::<Vec<&str>>();
+    let mut done_is:Vec<&str> = Vec::new();
+    for item in list_is{
+      let item = item.split('?').collect::<Vec<&str>>();
+      done_is.push(item[0]);
+    }
+    let insumos_servicios = done_is.join(",");
     render!{
       tr{td{"{id}"}td{"{nombre}"}td{"{patente}"}td{"{fecha}"}td{"{hora}"}td{"{facturado}"}td{"{rut}"}td{"{kilometraje}"}td{"{motor_n}"}td{"{chassis_n}"}td{"{fono}"}td{"{informado}"}td{"{diagnostico}"}td{"{insumos_servicios}"}td{"{total}"}
         td{
