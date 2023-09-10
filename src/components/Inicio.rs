@@ -114,42 +114,45 @@ pub fn Inicio(cx: Scope) -> Element{
         th{
           h4{"{field}"}
           div{
-            onclick:move |_| {
-              let mut toogle = toggle_query.get().clone();
-              toogle[index] = true;
-              toggle_query.set(toogle);
-            },
-            Icon {
-              width:15,
-              height:15,
-              icon: FaMagnifyingGlass,
-              class:"icon"
-            },
-          }
-          div{
-            onclick:move |_|{
-              match sort.get()[index]{
-                Sort::NONE => {
-                  let mut list = [Sort::NONE;15];
-                  list[index] = Sort::UP;
-                  sort.set(list);
-                },
-                Sort::UP => {
-                  let mut list = [Sort::NONE;15];
-                  list[index] = Sort::DOWN;
-                  sort.set(list);
-                },
-                Sort::DOWN => {
-                  let list = [Sort::NONE;15];
-                  sort.set(list);
+            class:"table-head",
+            div{
+              onclick:move |_| {
+                let mut toogle = toggle_query.get().clone();
+                toogle[index] = true;
+                toggle_query.set(toogle);
+              },
+              Icon {
+                width:15,
+                height:15,
+                icon: FaMagnifyingGlass,
+                class:"icon"
+              },
+            }
+            div{
+              onclick:move |_|{
+                match sort.get()[index]{
+                  Sort::NONE => {
+                    let mut list = [Sort::NONE;15];
+                    list[index] = Sort::UP;
+                    sort.set(list);
+                  },
+                  Sort::UP => {
+                    let mut list = [Sort::NONE;15];
+                    list[index] = Sort::DOWN;
+                    sort.set(list);
+                  },
+                  Sort::DOWN => {
+                    let list = [Sort::NONE;15];
+                    sort.set(list);
+                  }
                 }
+              },
+              Icon{
+                width:15,
+                height:15,
+                class:"icon",
+                icon:BsArrowDownCircleFill
               }
-            },
-            Icon{
-              width:15,
-              height:15,
-              class:"icon",
-              icon:BsArrowDownCircleFill
             }
           }
         }
@@ -158,7 +161,36 @@ pub fn Inicio(cx: Scope) -> Element{
       let query_value = &query.get()[index];
       render!{
         th{
-          h4{"{field}"}
+          div{
+            class:"table-head",
+            h4{"{field}"}
+            div{
+              onclick:move |_|{
+                match sort.get()[index]{
+                  Sort::NONE => {
+                    let mut list = [Sort::NONE;15];
+                    list[index] = Sort::UP;
+                    sort.set(list);
+                  },
+                  Sort::UP => {
+                    let mut list = [Sort::NONE;15];
+                    list[index] = Sort::DOWN;
+                    sort.set(list);
+                  },
+                  Sort::DOWN => {
+                    let list = [Sort::NONE;15];
+                    sort.set(list);
+                  }
+                }
+              },
+              Icon{
+                width:15,
+                height:15,
+                class:"icon",
+                icon:BsArrowDownCircleFill
+              }
+            }
+          }
           form{
             prevent_default:"onsubmit",
             input{
@@ -169,32 +201,6 @@ pub fn Inicio(cx: Scope) -> Element{
                 list[index] = e.value.clone();
                 query.set(list.clone())
               }
-            }
-          }
-          div{
-            onclick:move |_|{
-              match sort.get()[index]{
-                Sort::NONE => {
-                  let mut list = [Sort::NONE;15];
-                  list[index] = Sort::UP;
-                  sort.set(list);
-                },
-                Sort::UP => {
-                  let mut list = [Sort::NONE;15];
-                  list[index] = Sort::DOWN;
-                  sort.set(list);
-                },
-                Sort::DOWN => {
-                  let list = [Sort::NONE;15];
-                  sort.set(list);
-                }
-              }
-            },
-            Icon{
-              width:15,
-              height:15,
-              class:"icon",
-              icon:BsArrowDownCircleFill
             }
           }
         }

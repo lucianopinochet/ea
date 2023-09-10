@@ -13,7 +13,7 @@ pub fn Agregar(cx: Scope) -> Element{
   let date = format!("{}-{}-{}",date.year(), date.month(), date.day());
   let time:NaiveTime = Local::now().time();
   let time = format!("{}:{}",time.hour(), time.minute());
-  let input_values = use_state(cx, ||vec!["".to_string(),"".to_string(),"".to_string(),date,time,"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string()]);
+  let input_values = use_state(cx, ||vec!["".to_string(),"".to_string(),date,time,"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string()]);
   let mut rdr = Reader::from_reader(File::open("data.csv").unwrap());
   let mut iter = rdr.records();
   while let Some(res) = iter.next(){
@@ -30,12 +30,28 @@ pub fn Agregar(cx: Scope) -> Element{
     }
   };
   let mut wtr  = Writer::from_writer(file);
+  let informe_input = use_state(cx,||"".to_string());
+  let informado_list:&UseState<Vec<String>> = use_state(cx, ||vec![]);
+  let informe = informado_list.get().iter().enumerate().map(|(index, item)|{
+    render!{
+        input{
+          value:"{item}",
+          style:"width:95%;",
+          oninput:move|e| {
+            let mut list = informado_list.get().clone();
+            list[index] = e.value.clone();
+            informado_list.set(list);
+          }
+        }
+    }
+  });
   render!{
     form{
       prevent_default:"onsubmit",
       div{
         class:"check-in-form",
         div{
+          class:"add-input",
           label{
             r#for:"nombre",
             "Nombre"
@@ -53,6 +69,7 @@ pub fn Agregar(cx: Scope) -> Element{
           }
         }
         div{
+          class:"add-input",
           label{
             r#for:"patente",
             "Patente"
@@ -71,6 +88,7 @@ pub fn Agregar(cx: Scope) -> Element{
           }
         }
         div{
+          class:"add-input",
           label{
             r#for:"fecha",
             "Fecha"
@@ -88,6 +106,7 @@ pub fn Agregar(cx: Scope) -> Element{
           }
         }
         div{
+          class:"add-input",
           label{
             r#for:"hora",
             "Hora"
@@ -105,6 +124,7 @@ pub fn Agregar(cx: Scope) -> Element{
           }
         }
         div{
+          class:"add-input",
           label{
             r#for:"facturado",
             "Facturado"
@@ -122,6 +142,7 @@ pub fn Agregar(cx: Scope) -> Element{
           }
         }
         div{
+          class:"add-input",
           label{
             r#for:"rut",
             "Rut"
@@ -139,6 +160,7 @@ pub fn Agregar(cx: Scope) -> Element{
           }
         }
         div{
+          class:"add-input",
           label{
             r#for:"kilometraje",
             "Kilometraje"
@@ -156,6 +178,7 @@ pub fn Agregar(cx: Scope) -> Element{
           }
         }
         div{
+          class:"add-input",
           label{
             r#for:"motor_n",
             "Motor N"
@@ -173,6 +196,7 @@ pub fn Agregar(cx: Scope) -> Element{
           }
         }
         div{
+          class:"add-input",
           label{
             r#for:"chassis_n",
             "Chassis N"
@@ -190,6 +214,7 @@ pub fn Agregar(cx: Scope) -> Element{
           }
         }
         div{
+          class:"add-input",
           label{
             r#for:"fono",
             "Fono"
@@ -209,20 +234,53 @@ pub fn Agregar(cx: Scope) -> Element{
           }
         }
       }
-      Link{
-        to:Route::Inicio{},
-        onclick:move|_|{
-          if !first{
-            id+=1;
+      div{
+        class:"informado",
+        h4{"Informado"}
+        form{
+          prevent_default:"onsubmit",
+          class:"informado-form",
+          input{
+            oninput:|e| informe_input.set(e.value.clone()),
+            style:"width:90%;",
+            r#type:"text",
+            value:"{informe_input}"
           }
-          let formated = format!("{id}").to_string();
-          let list  = concat([vec![formated], input_values.get().clone()]);
-          wtr.write_record(&list).unwrap();
-          wtr.flush().unwrap();
-        },
-        input{
-          r#type:"submit",
-          value:"Agregar"
+          input{
+            onclick:move|_|{
+              let mut list = informado_list.get().clone();
+              list.push(informe_input.get().clone());
+              informe_input.set("".to_string());
+              informado_list.set(list.clone());
+            },        
+            class:"informado-button",
+            style:"width:10%;",
+            r#type:"button",
+            value:"Agregar"
+          }
+        }
+        informe
+      }
+      div{
+        class:"submit-input",
+        Link{
+          to:Route::Inicio{},
+          onclick:move|_|{
+            if !first{
+              id+=1;
+            }
+            let inform = informado_list.get().clone();
+            let inform = inform.join(";");
+            let formated = format!("{id}").to_string();
+            let list  = concat([vec![formated], input_values.get().clone(), vec![inform,"".to_string(),"".to_string(),"".to_string()]]);
+            wtr.write_record(&list).unwrap();
+            wtr.flush().unwrap();
+          },
+          input{
+            class:"add-submit",
+            r#type:"submit",
+            value:"Enviar"
+          }
         }
       }
     }

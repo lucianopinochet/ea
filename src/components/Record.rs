@@ -42,6 +42,7 @@ pub fn Record(cx:Scope, id:u16) -> Element{
     render!{
       div{
         input{
+          class:"add-submit",
           r#type:"button",
           value:"Eliminar",
           prevent_default:"onsubmit",
@@ -72,6 +73,7 @@ pub fn Record(cx:Scope, id:u16) -> Element{
             wrt.flush().unwrap();
           },
           input{
+            class:"add-submit",
             r#type:"submit",
             value:"Seguro?"
           }
@@ -107,6 +109,7 @@ pub fn Record(cx:Scope, id:u16) -> Element{
             wrt.flush().unwrap();
           },
           input{
+            class:"add-submit",
             r#type:"submit",
             value:"Editar"
           }

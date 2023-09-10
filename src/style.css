@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto:wght@300&display=swap');
+:root{
+  --main-color:#101d58;
+}
 *{
   font-family: 'Open Sans', sans-serif;
   padding: 0;
@@ -7,7 +10,7 @@
 }
 html{
   background: rgb(2,0,36);
-  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 48%, rgba(0,212,255,1) 100%);
+  background-size: contain;
 }
 body{
   font-size: 1rem;
@@ -20,20 +23,23 @@ body{
   flex-direction: row;
   width: 100%;
   height: 40px;
+  position: sticky;
+  top: 0;
+  left: 0;
 }
 .navbar a{
   width: 49%;
   height: 40px;
   text-align: center;
   text-decoration: none;
-  background-color: #0d0042;
+  background-color: var(--main-color);
   color: #fff;
   border-radius: 5px;
   justify-content: center;
   margin: 5px;
 }
 a:link, a:visited, a:link:active, a:visited:active{
-  color: #0d0042;
+  color: var(--main-color);
   text-decoration: none;
 }
 .navbar a:link,.navbar a:visited,.navbar a:link:active, a:visited:active{
@@ -41,9 +47,8 @@ a:link, a:visited, a:link:active, a:visited:active{
   text-decoration: none;
 }
 .navbar a:hover{
-  background-color: #0d0042;
+  background-color: #232e5e;
   cursor: grab;
-  height: 41px;
 }
 .record-form{
   display: flex;
@@ -80,7 +85,7 @@ th form input{
 .icon-option{
   justify-content: center;
   text-align: center;
-  color: #0d0042;
+  color: var(--main-color);
 }
 .icon-option:hover{
   cursor: grab;
@@ -101,8 +106,10 @@ td{
 .check-in-form{
   display: grid;
   grid-template-columns: 1fr 1fr; 
+  align-items: center;
+  justify-content: center;
 }.check-in-form input{
-  width: 100%;
+  width: 90%;
 }
 table{
   border-collapse: collapse;
@@ -122,7 +129,7 @@ thead{
 }
 table thead tr{
   height: 60px;
-  background: #0d0042;
+  background: var(--main-color);
 }
 table *{
   position: relative;
@@ -149,10 +156,65 @@ tbody tr{
   font-weight: unset;
 }
 tbody tr:nth-child(even){
-  background-color: #efefef;
+  background-color: #bfbfbf;
 }
 #main{
   display: flex;
   flex-direction: column;
   row-gap: 5px;
+}
+.table-head{
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  justify-content: center;
+  column-gap: 5px;
+}
+th form input{
+  border-radius: 5px;
+}
+.add-input{
+  background-color: var(--main-color);
+  color: #fff;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+.submit-input{
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+}
+.add-submit{
+  width: 25%;
+  height: 50px;
+  border-radius: 5px;
+  background-color: var(--main-color);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  border: none;
+}
+.informado-form{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border-radius: 5px;
+  background-color: var(--main-color);
+}
+.informado{
+  background-color: var(--main-color);
+  width: 100%;
+  border-radius: 5px;
+  color: #fff;
+}
+.informado-button{
+  background-color: var(--main-color);
+  border-radius: 5px;
+  color: #fff;
+  border: none;
+}
+input[type="button"], input[type="submit"]{
+  background-color: #232e5e;
+  cursor: grab;  
 }
