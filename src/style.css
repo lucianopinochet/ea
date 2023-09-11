@@ -107,6 +107,14 @@ td{
   text-overflow: ellipsis;
   max-width: 100px;
 }
+.informado{
+  background-color: var(--main-color);
+  width: 100%;
+  border-radius: 5px;
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+}
 .check-in-form{
   display: grid;
   grid-template-columns: 1fr 1fr; 
@@ -206,12 +214,6 @@ th form input{
   border-radius: 5px;
   background-color: var(--main-color);
 }
-.informado{
-  background-color: var(--main-color);
-  width: 100%;
-  border-radius: 5px;
-  color: #fff;
-}
 .informado-button{
   background-color: var(--main-color);
   border-radius: 5px;
@@ -228,4 +230,15 @@ input[type="button"]:hover, input[type="submit"]:hover{
 }
 input{
   border-radius: 5px;
+}
+.form-add input{
+  height: 25px;
+}
+.record-buttons{
+  justify-content: center;
+  text-align: center;
+}
+.record-buttons input{
+  height: 50px;
+  width: 150px;
 }

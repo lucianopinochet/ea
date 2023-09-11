@@ -7,6 +7,7 @@ use itertools::concat;
 #[inline_props]
 pub fn Record(cx:Scope, id:u16) -> Element{
   let delete = use_state(cx, ||false);
+  let mut total = 0;
   let mut rdr = Reader::from_path("data.csv").unwrap();
   let records = rdr.deserialize();
   let mut record = ("".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string(),"".to_string());
@@ -67,10 +68,11 @@ pub fn Record(cx:Scope, id:u16) -> Element{
   }
   let is_list:&UseState<Vec<(String,String)>> = use_state(cx, ||rdr_is);
   let is = is_list.get().iter().enumerate().map(|(index, (item, value))|{
+    total += value.parse::<i32>().unwrap();
     render!{
         input{
           value:"{item}",
-          style:"width:75%;",
+          style:"width:70%;",
           oninput:move|e| {
             let mut list = is_list.get().clone();
             list[index] = (e.value.clone(),list[index].1.clone());
@@ -134,7 +136,7 @@ pub fn Record(cx:Scope, id:u16) -> Element{
   };
   render!{
     form{
-      class:"check-in2-form",
+      class:"form-add",
       prevent_default:"onsubmit",
       div{
         class:"check-in-form",
@@ -409,8 +411,15 @@ pub fn Record(cx:Scope, id:u16) -> Element{
           }
         }
         is
+        div{
+          style:"width:100%; justify-content: center;",
+          input{
+            value:"{total}"
+          }
+        }
       }
       div{
+        class:"record-buttons",
         Link{
           to:Route::Inicio{},
           onclick:move|_|{
@@ -450,8 +459,8 @@ pub fn Record(cx:Scope, id:u16) -> Element{
             value:"Editar"
           }
         }
+        delete_button
       }
-      delete_button
     }
   }
 }

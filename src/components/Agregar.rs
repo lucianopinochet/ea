@@ -8,6 +8,7 @@ use itertools::concat;
 #[inline_props]
 pub fn Agregar(cx: Scope) -> Element{
   let mut id:u16 = 0;
+  let mut total = 0;
   let mut first = true;
   let date:DateTime<Local> = Local::now(); 
   let date = format!("{}-{}-{}",date.year(), date.month(), date.day());
@@ -64,10 +65,11 @@ pub fn Agregar(cx: Scope) -> Element{
   let valor_input = use_state(cx,||"".to_string());
   let is_list:&UseState<Vec<(String,String)>> = use_state(cx, ||vec![]);
   let is = is_list.get().iter().enumerate().map(|(index, (item, value))|{
+    total += value.parse::<i32>().unwrap();
     render!{
         input{
           value:"{item}",
-          style:"width:75%;",
+          style:"width:70%;",
           oninput:move|e| {
             let mut list = is_list.get().clone();
             list[index] = (e.value.clone(),list[index].1.clone());
@@ -362,6 +364,12 @@ pub fn Agregar(cx: Scope) -> Element{
           }
         }
         is
+        div{
+          style:"width:100%; justify-content: center;",
+          input{
+            value:"{total}"
+          }
+        }
       }
       div{
         class:"submit-input",
