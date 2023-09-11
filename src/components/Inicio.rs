@@ -88,7 +88,7 @@ pub fn Inicio(cx: Scope) -> Element{
     }
     let insumos_servicios = done_is.join(",");
     render!{
-      tr{td{"{id}"}td{"{nombre}"}td{"{patente}"}td{"{fecha}"}td{"{hora}"}td{"{facturado}"}td{"{rut}"}td{"{kilometraje}"}td{"{motor_n}"}td{"{chassis_n}"}td{"{fono}"}td{"{informado}"}td{"{diagnostico}"}td{"{insumos_servicios}"}td{"{total}"}
+      tr{td{"{id}"}td{"{nombre}"}td{"{patente}"}td{"{fecha}"}td{"{hora}"}td{"{facturado}"}td{"{rut}"}td{"{kilometraje}"}td{"{motor_n}"}td{"{chassis_n}"}td{"{fono}"}td{"{informado}"}td{"{diagnostico}"}td{"{insumos_servicios}"}td{"${total}"}
         td{
           div{
             class:"icon-option",
@@ -195,6 +195,7 @@ pub fn Inicio(cx: Scope) -> Element{
             prevent_default:"onsubmit",
             input{
               r#type:"text",
+              style:"width:90%;",
               value:"{query_value}",
               oninput:move |e| {
                 let mut list = query.get().clone();

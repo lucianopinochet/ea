@@ -45,6 +45,47 @@ pub fn Agregar(cx: Scope) -> Element{
         }
     }
   });
+  let diagnostico_input = use_state(cx,||"".to_string());
+  let diagnostico_list:&UseState<Vec<String>> = use_state(cx, ||vec![]);
+  let diagnostico = diagnostico_list.get().iter().enumerate().map(|(index, item)|{
+    render!{
+        input{
+          value:"{item}",
+          style:"width:95%;",
+          oninput:move|e| {
+            let mut list = diagnostico_list.get().clone();
+            list[index] = e.value.clone();
+            diagnostico_list.set(list);
+          }
+        }
+    }
+  });
+  let is_input = use_state(cx,||"".to_string());
+  let valor_input = use_state(cx,||"".to_string());
+  let is_list:&UseState<Vec<(String,String)>> = use_state(cx, ||vec![]);
+  let is = is_list.get().iter().enumerate().map(|(index, (item, value))|{
+    render!{
+        input{
+          value:"{item}",
+          style:"width:75%;",
+          oninput:move|e| {
+            let mut list = is_list.get().clone();
+            list[index] = (e.value.clone(),list[index].1.clone());
+            is_list.set(list);
+          }
+        }
+        input{
+          value:"{value}",
+          r#type:"number",
+          style:"width:15%;",
+          oninput:move|e| {
+            let mut list = is_list.get().clone();
+            list[index] = (list[index].0.clone(),e.value.clone());
+            is_list.set(list);
+          }
+        }
+    }
+  });
   render!{
     form{
       prevent_default:"onsubmit",
@@ -262,6 +303,67 @@ pub fn Agregar(cx: Scope) -> Element{
         informe
       }
       div{
+        class:"informado",
+        h4{"Diagnostico"}
+        form{
+          prevent_default:"onsubmit",
+          class:"informado-form",
+          input{
+            oninput:|e| diagnostico_input.set(e.value.clone()),
+            style:"width:90%;",
+            r#type:"text",
+            value:"{diagnostico_input}"
+          }
+          input{
+            onclick:move|_|{
+              let mut list = diagnostico_list.get().clone();
+              list.push(diagnostico_input.get().clone());
+              diagnostico_input.set("".to_string());
+              diagnostico_list.set(list.clone());
+            },        
+            class:"informado-button",
+            style:"width:10%;",
+            r#type:"button",
+            value:"Agregar"
+          }
+        }
+        diagnostico
+      }
+      div{
+        class:"informado",
+        h4{"Insumos o Servicios"}
+        form{
+          prevent_default:"onsubmit",
+          class:"informado-form",
+          input{
+            oninput:|e| is_input.set(e.value.clone()),
+            style:"width:75%;",
+            r#type:"text",
+            value:"{is_input}"
+          }
+          input{
+            oninput:|e| valor_input.set(e.value.clone()),
+            style:"width:15%;",
+            r#type:"number",
+            value:"{valor_input}"
+          }
+          input{
+            onclick:move|_|{
+              let mut list = is_list.get().clone();
+              list.push((is_input.get().clone(),valor_input.get().clone()));
+              is_input.set("".to_string());
+              valor_input.set("".to_string());
+              is_list.set(list.clone());
+            },        
+            class:"informado-button",
+            style:"width:10%;",
+            r#type:"button",
+            value:"Agregar"
+          }
+        }
+        is
+      }
+      div{
         class:"submit-input",
         Link{
           to:Route::Inicio{},
@@ -271,8 +373,18 @@ pub fn Agregar(cx: Scope) -> Element{
             }
             let inform = informado_list.get().clone();
             let inform = inform.join(";");
+            let diagnostic = diagnostico_list.get().clone();
+            let diagnostic = diagnostic.join(";");
+            let is = is_list.get().clone();
+            let mut total:i32 = 0;
+            let is:Vec<String> =  is.iter().map(|(item, value)|{
+              total+=value.parse::<i32>().unwrap();
+              format!("{item}?{value}")
+            }).collect();
+            let total = total.to_string();
+            let is = is.join(";");
             let formated = format!("{id}").to_string();
-            let list  = concat([vec![formated], input_values.get().clone(), vec![inform,"".to_string(),"".to_string(),"".to_string()]]);
+            let list  = concat([vec![formated], input_values.get().clone(), vec![inform,diagnostic,is,total]]);
             wtr.write_record(&list).unwrap();
             wtr.flush().unwrap();
           },
