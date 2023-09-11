@@ -412,7 +412,7 @@ pub fn Record(cx:Scope, id:u16) -> Element{
         }
         is
         div{
-          style:"width:100%; justify-content: center;",
+          class:"total",
           input{
             value:"{total}"
           }

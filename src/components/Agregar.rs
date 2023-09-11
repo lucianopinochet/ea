@@ -365,7 +365,7 @@ pub fn Agregar(cx: Scope) -> Element{
         }
         is
         div{
-          style:"width:100%; justify-content: center;",
+          class:"total",
           input{
             value:"{total}"
           }
