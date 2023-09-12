@@ -117,7 +117,6 @@ td{
   max-width: 100px;
 }
 .informado{
-  background-color: var(--main-color);
   width: 100%;
   border-radius: 5px;
   color: #fff;
@@ -197,7 +196,6 @@ th form input{
   border-radius: 5px;
 }
 .add-input{
-  background-color: var(--main-color);
   color: #fff;
   border-radius: 5px;
   display: flex;
@@ -221,7 +219,7 @@ th form input{
 .informado-form{
   display: flex;
   flex-direction: row;
-  width: 95%;
+  width: 100%;
   border-radius: 5px;
   background-color: var(--main-color);
 }
@@ -242,9 +240,6 @@ input[type="button"]:hover, input[type="submit"]:hover{
 input{
   border-radius: 5px;
 }
-.form-add input{
-  height: 25px;
-}
 .record-buttons{
   justify-content: center;
   text-align: center;
@@ -260,4 +255,16 @@ input{
 }
 .submit-input a, .record-buttons a{
   background-color: transparent;
+}
+.bb{
+  background-color: var(--main-color);
+  border-radius: 5px;
+  padding: 5px;
+}
+.bb input{
+  height: 30px;
+  font-size: 1.1rem;
+}
+.informado form{
+  margin: 0;
 }

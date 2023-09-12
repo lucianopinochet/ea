@@ -69,7 +69,7 @@ pub fn Agregar(cx: Scope) -> Element{
     render!{
         input{
           value:"{item}",
-          style:"width:70%;",
+          style:"width:75%;",
           oninput:move|e| {
             let mut list = is_list.get().clone();
             list[index] = (e.value.clone(),list[index].1.clone());
@@ -92,284 +92,288 @@ pub fn Agregar(cx: Scope) -> Element{
     form{
       prevent_default:"onsubmit",
       div{
-        class:"check-in-form",
+        class:"bb",
         div{
-          class:"add-input",
-          label{
-            r#for:"nombre",
-            "Nombre"
+          class:"check-in-form",
+          div{
+            class:"add-input",
+            label{
+              r#for:"nombre",
+              "Nombre"
+            }
+            input{
+              r#type:"text",
+              required:true,
+              name:"nombre",
+              value:"{input_values.get()[0]}",
+              oninput:move|e|{
+                let mut list = input_values.get().clone();
+                list[0] = e.value.clone();
+                input_values.set(list.clone())
+              }
+            }
           }
-          input{
-            r#type:"text",
-            required:true,
-            name:"nombre",
-            value:"{input_values.get()[0]}",
-            oninput:move|e|{
-              let mut list = input_values.get().clone();
-              list[0] = e.value.clone();
-              input_values.set(list.clone())
+          div{
+            class:"add-input",
+            label{
+              r#for:"patente",
+              "Patente"
+            }
+            input{
+              r#type:"text",
+              required:true,
+              name:"patente",
+              pattern:"[a-zA-Z0-9]{6}",
+              value:"{input_values.get()[1]}",
+              oninput:move|e|{
+                let mut list = input_values.get().clone();
+                list[1] = e.value.clone();
+                input_values.set(list.clone())
+              }
+            }
+          }
+          div{
+            class:"add-input",
+            label{
+              r#for:"fecha",
+              "Fecha"
+            }
+            input{
+              r#type:"date",
+              required:true,
+              name:"fecha",
+              value:"{input_values.get()[2]}",
+              oninput:move|e|{
+                let mut list = input_values.get().clone();
+                list[2] = e.value.clone();
+                input_values.set(list.clone())
+              }
+            }
+          }
+          div{
+            class:"add-input",
+            label{
+              r#for:"hora",
+              "Hora"
+            }
+            input{
+              r#type:"time",
+              required:true,
+              name:"hora",
+              value:"{input_values.get()[3]}",
+              oninput:move|e|{
+                let mut list = input_values.get().clone();
+                list[3] = e.value.clone();
+                input_values.set(list.clone())
+              }
+            }
+          }
+          div{
+            class:"add-input",
+            label{
+              r#for:"facturado",
+              "Facturado"
+            }
+            input{
+              r#type:"text",
+              required:true,
+              name:"facturado",
+              value:"{input_values.get()[4]}",
+              oninput:move|e|{
+                let mut list = input_values.get().clone();
+                list[4] = e.value.clone();
+                input_values.set(list.clone())
+              }
+            }
+          }
+          div{
+            class:"add-input",
+            label{
+              r#for:"rut",
+              "Rut"
+            }
+            input{
+              r#type:"text",
+              required:true,
+              name:"rut",
+              value:"{input_values.get()[5]}",
+              oninput:move|e|{
+                let mut list = input_values.get().clone();
+                list[5] = e.value.clone();
+                input_values.set(list.clone())
+              }
+            }
+          }
+          div{
+            class:"add-input",
+            label{
+              r#for:"kilometraje",
+              "Kilometraje"
+            }
+            input{
+              r#type:"number",
+              required:true,
+              name:"kilometraje",
+              value:"{input_values.get()[6]}",
+              oninput:move|e|{
+                let mut list = input_values.get().clone();
+                list[6] = e.value.clone();
+                input_values.set(list.clone())
+              }
+            }
+          }
+          div{
+            class:"add-input",
+            label{
+              r#for:"motor_n",
+              "Motor N"
+            }
+            input{
+              r#type:"text",
+              required:true,
+              name:"motor_n",
+              value:"{input_values.get()[7]}",
+              oninput:move|e|{
+                let mut list = input_values.get().clone();
+                list[7] = e.value.clone();
+                input_values.set(list.clone())
+              }
+            }
+          }
+          div{
+            class:"add-input",
+            label{
+              r#for:"chassis_n",
+              "Chassis N"
+            }
+            input{
+              r#type:"text",
+              required:true,
+              name:"chassis_n",
+              value:"{input_values.get()[8]}",
+              oninput:move|e|{
+                let mut list = input_values.get().clone();
+                list[8] = e.value.clone();
+                input_values.set(list.clone())
+              }
+            }
+          }
+          div{
+            class:"add-input",
+            label{
+              r#for:"fono",
+              "Fono"
+            }
+            input{
+              r#type:"tel",
+              required:true,
+              name:"fono",
+              placeholder:"+56912345678",
+              pattern:"+569[0-9]{8}",
+              value:"{input_values.get()[9]}",
+              oninput:move|e|{
+                let mut list = input_values.get().clone();
+                list[9] = e.value.clone();
+                input_values.set(list.clone())
+              }
             }
           }
         }
-        div{
-          class:"add-input",
-          label{
-            r#for:"patente",
-            "Patente"
+          div{
+            class:"informado",
+            h4{"Informado"}
+            form{
+              prevent_default:"onsubmit",
+              class:"informado-form",
+              input{
+                oninput:|e| informe_input.set(e.value.clone()),
+                style:"width:90%;",
+                r#type:"text",
+                value:"{informe_input}"
+              }
+              input{
+                onclick:move|_|{
+                  let mut list = informado_list.get().clone();
+                  list.push(informe_input.get().clone());
+                  informe_input.set("".to_string());
+                  informado_list.set(list.clone());
+                },        
+                class:"informado-button",
+                style:"width:10%;",
+                r#type:"button",
+                value:"Agregar"
+              }
+            }
+            informe
           }
-          input{
-            r#type:"text",
-            required:true,
-            name:"patente",
-            pattern:"[a-zA-Z0-9]{6}",
-            value:"{input_values.get()[1]}",
-            oninput:move|e|{
-              let mut list = input_values.get().clone();
-              list[1] = e.value.clone();
-              input_values.set(list.clone())
+          div{
+            class:"informado",
+            h4{"Diagnostico"}
+            form{
+              prevent_default:"onsubmit",
+              class:"informado-form",
+              input{
+                oninput:|e| diagnostico_input.set(e.value.clone()),
+                style:"width:90%;",
+                r#type:"text",
+                value:"{diagnostico_input}"
+              }
+              input{
+                onclick:move|_|{
+                  let mut list = diagnostico_list.get().clone();
+                  list.push(diagnostico_input.get().clone());
+                  diagnostico_input.set("".to_string());
+                  diagnostico_list.set(list.clone());
+                },        
+                class:"informado-button",
+                style:"width:10%;",
+                r#type:"button",
+                value:"Agregar"
+              }
+            }
+            diagnostico
+          }
+          div{
+            class:"informado",
+            h4{"Insumos o Servicios"}
+            form{
+              prevent_default:"onsubmit",
+              class:"informado-form",
+              input{
+                oninput:|e| is_input.set(e.value.clone()),
+                style:"width:75%;",
+                r#type:"text",
+                value:"{is_input}"
+              }
+              input{
+                oninput:|e| valor_input.set(e.value.clone()),
+                style:"width:15%;",
+                r#type:"number",
+                value:"{valor_input}"
+              }
+              input{
+                onclick:move|_|{
+                  let mut list = is_list.get().clone();
+                  list.push((is_input.get().clone(),valor_input.get().clone()));
+                  is_input.set("".to_string());
+                  valor_input.set("".to_string());
+                  is_list.set(list.clone());
+                },        
+                class:"informado-button",
+                style:"width:10%;",
+                r#type:"button",
+                value:"Agregar"
+              }
+            }
+            is
+            div{
+              style:"width:100%; justify-content: center;",
+              h3{"Total:"}
+              input{
+                value:"{total}"
+              }
             }
           }
-        }
-        div{
-          class:"add-input",
-          label{
-            r#for:"fecha",
-            "Fecha"
-          }
-          input{
-            r#type:"date",
-            required:true,
-            name:"fecha",
-            value:"{input_values.get()[2]}",
-            oninput:move|e|{
-              let mut list = input_values.get().clone();
-              list[2] = e.value.clone();
-              input_values.set(list.clone())
-            }
-          }
-        }
-        div{
-          class:"add-input",
-          label{
-            r#for:"hora",
-            "Hora"
-          }
-          input{
-            r#type:"time",
-            required:true,
-            name:"hora",
-            value:"{input_values.get()[3]}",
-            oninput:move|e|{
-              let mut list = input_values.get().clone();
-              list[3] = e.value.clone();
-              input_values.set(list.clone())
-            }
-          }
-        }
-        div{
-          class:"add-input",
-          label{
-            r#for:"facturado",
-            "Facturado"
-          }
-          input{
-            r#type:"text",
-            required:true,
-            name:"facturado",
-            value:"{input_values.get()[4]}",
-            oninput:move|e|{
-              let mut list = input_values.get().clone();
-              list[4] = e.value.clone();
-              input_values.set(list.clone())
-            }
-          }
-        }
-        div{
-          class:"add-input",
-          label{
-            r#for:"rut",
-            "Rut"
-          }
-          input{
-            r#type:"text",
-            required:true,
-            name:"rut",
-            value:"{input_values.get()[5]}",
-            oninput:move|e|{
-              let mut list = input_values.get().clone();
-              list[5] = e.value.clone();
-              input_values.set(list.clone())
-            }
-          }
-        }
-        div{
-          class:"add-input",
-          label{
-            r#for:"kilometraje",
-            "Kilometraje"
-          }
-          input{
-            r#type:"number",
-            required:true,
-            name:"kilometraje",
-            value:"{input_values.get()[6]}",
-            oninput:move|e|{
-              let mut list = input_values.get().clone();
-              list[6] = e.value.clone();
-              input_values.set(list.clone())
-            }
-          }
-        }
-        div{
-          class:"add-input",
-          label{
-            r#for:"motor_n",
-            "Motor N"
-          }
-          input{
-            r#type:"text",
-            required:true,
-            name:"motor_n",
-            value:"{input_values.get()[7]}",
-            oninput:move|e|{
-              let mut list = input_values.get().clone();
-              list[7] = e.value.clone();
-              input_values.set(list.clone())
-            }
-          }
-        }
-        div{
-          class:"add-input",
-          label{
-            r#for:"chassis_n",
-            "Chassis N"
-          }
-          input{
-            r#type:"text",
-            required:true,
-            name:"chassis_n",
-            value:"{input_values.get()[8]}",
-            oninput:move|e|{
-              let mut list = input_values.get().clone();
-              list[8] = e.value.clone();
-              input_values.set(list.clone())
-            }
-          }
-        }
-        div{
-          class:"add-input",
-          label{
-            r#for:"fono",
-            "Fono"
-          }
-          input{
-            r#type:"tel",
-            required:true,
-            name:"fono",
-            placeholder:"+56912345678",
-            pattern:"+569[0-9]{8}",
-            value:"{input_values.get()[9]}",
-            oninput:move|e|{
-              let mut list = input_values.get().clone();
-              list[9] = e.value.clone();
-              input_values.set(list.clone())
-            }
-          }
-        }
-      }
-      div{
-        class:"informado",
-        h4{"Informado"}
-        form{
-          prevent_default:"onsubmit",
-          class:"informado-form",
-          input{
-            oninput:|e| informe_input.set(e.value.clone()),
-            style:"width:90%;",
-            r#type:"text",
-            value:"{informe_input}"
-          }
-          input{
-            onclick:move|_|{
-              let mut list = informado_list.get().clone();
-              list.push(informe_input.get().clone());
-              informe_input.set("".to_string());
-              informado_list.set(list.clone());
-            },        
-            class:"informado-button",
-            style:"width:10%;",
-            r#type:"button",
-            value:"Agregar"
-          }
-        }
-        informe
-      }
-      div{
-        class:"informado",
-        h4{"Diagnostico"}
-        form{
-          prevent_default:"onsubmit",
-          class:"informado-form",
-          input{
-            oninput:|e| diagnostico_input.set(e.value.clone()),
-            style:"width:90%;",
-            r#type:"text",
-            value:"{diagnostico_input}"
-          }
-          input{
-            onclick:move|_|{
-              let mut list = diagnostico_list.get().clone();
-              list.push(diagnostico_input.get().clone());
-              diagnostico_input.set("".to_string());
-              diagnostico_list.set(list.clone());
-            },        
-            class:"informado-button",
-            style:"width:10%;",
-            r#type:"button",
-            value:"Agregar"
-          }
-        }
-        diagnostico
-      }
-      div{
-        class:"informado",
-        h4{"Insumos o Servicios"}
-        form{
-          prevent_default:"onsubmit",
-          class:"informado-form",
-          input{
-            oninput:|e| is_input.set(e.value.clone()),
-            style:"width:75%;",
-            r#type:"text",
-            value:"{is_input}"
-          }
-          input{
-            oninput:|e| valor_input.set(e.value.clone()),
-            style:"width:15%;",
-            r#type:"number",
-            value:"{valor_input}"
-          }
-          input{
-            onclick:move|_|{
-              let mut list = is_list.get().clone();
-              list.push((is_input.get().clone(),valor_input.get().clone()));
-              is_input.set("".to_string());
-              valor_input.set("".to_string());
-              is_list.set(list.clone());
-            },        
-            class:"informado-button",
-            style:"width:10%;",
-            r#type:"button",
-            value:"Agregar"
-          }
-        }
-        is
-        div{
-          class:"total",
-          input{
-            value:"{total}"
-          }
-        }
       }
       div{
         class:"submit-input",
